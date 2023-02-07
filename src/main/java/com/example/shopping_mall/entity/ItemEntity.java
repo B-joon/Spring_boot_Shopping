@@ -33,11 +33,14 @@ public class ItemEntity {
     @Column(name = "ITEM_DETAIL", nullable = false)
     private String itemDetail;  // 삼품 상세 설명
 
+    @Column(name = "ITEM_SELL_STATUS")
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;  // 상품 판매 상태
 
+    @Column(name = "REG_TIME")
     private LocalDateTime regTime;          // 등록 시간
 
+    @Column(name = "UPDATE_TIME")
     private LocalDateTime updateTime;       // 수정 시간
 
 }
