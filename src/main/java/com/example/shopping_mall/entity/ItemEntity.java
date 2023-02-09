@@ -1,6 +1,7 @@
 package com.example.shopping_mall.entity;
 
 import com.example.shopping_mall.constant.ItemSellStatus;
+import com.example.shopping_mall.vo.ItemFormVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,5 +43,13 @@ public class ItemEntity {
 
     @Column(name = "UPDATE_TIME")
     private LocalDateTime updateTime;       // 수정 시간
+
+    public void updateItem(ItemFormVO itemFormVO) {
+        this.itemNm = itemFormVO.getItemNm();
+        this.price = itemFormVO.getPrice();
+        this.stockNumber = itemFormVO.getStockNumber();
+        this.itemDetail = itemFormVO.getItemDetail();
+        this.itemSellStatus = itemFormVO.getItemSellStatus();
+    }
 
 }
