@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "CART")
 @Getter @Setter
 @ToString
-public class CartEntity {
+public class CartEntity extends BaseEntity{
 
     @Id
     @Column(name = "CART_ID")
@@ -31,5 +31,13 @@ public class CartEntity {
      */
     @JoinColumn(name = "MEMBER_ID")
     private MemberEntity member;
+
+    public static CartEntity createCart(MemberEntity member) {
+
+        CartEntity cart = new CartEntity();
+        cart.setMember(member);
+
+        return cart;
+    }
 
 }
