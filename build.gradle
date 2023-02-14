@@ -39,6 +39,12 @@ dependencies {
     implementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    /*
+    H2 Database는 자바 기반의 관계형 데이터베이스로 매우 가볍고 빠른 데이터베이스이다.
+    디스크 기반의 데이터 저장뿐만 아니라 메모리 내에 데이터를 저장하는 인메모리 데이터베이스 기능을 지원하며
+    데이터를 영구적으로 저장하는 데 권장되는 데이터베이스는 아니지만 위 장점들 때문에
+    테스트용 데이터베이스로 많이 사용된다.
+     */
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
