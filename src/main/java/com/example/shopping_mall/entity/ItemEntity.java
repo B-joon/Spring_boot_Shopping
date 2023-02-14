@@ -11,6 +11,10 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/*
+Item 클래스를 entity로 선언합니다. 또한 @Table 어노테이션을 통해 어떤 테이블과 매핑될지를 정합니다.
+ITEM 테이블과 매핑되도록 name을 ITEM으로 지정해야 합니다.
+ */
 @Entity
 @Table(name = "ITEM")
 @Getter
@@ -19,11 +23,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ItemEntity extends BaseEntity{
 
+    /*
+    entity로 선언한 클래스는 반드시 기본키를 가져야 한다.
+    기본키가 되는 맴버변수에 @Id 어노테이션을 붙여준다.
+    테이블에 매핑될 컬럼의 이름을 @Column 어노테이션을 툉해 설정해준다.
+    Item 클래스의 id 변수와 Item 테이블의 item_id 컬럼이 매핑되도록 한다.
+    @GeneratedValue 어노테이션을 통해 기본키 생성 전ㄺ을 AUTO로 지정
+     */
     @Id
     @Column(name = "ITEM_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;            // 상품코드
 
+    /*
+    @Column 어노테이션의 nullable 속성을 이용해서 항상 값이 있어야 하는 필드는 not null 설정한다.
+    String 필드는 default 값으로 255가 설정돼 있다.
+    각 String 필드마다 필요한 길이를 length 속성에 default 값을 세팅한다.
+     */
     @Column(name = "ITEM_NAME", nullable = false, length = 50)
     private String itemNm;      // 상품명
 
