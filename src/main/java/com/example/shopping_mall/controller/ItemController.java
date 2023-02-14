@@ -1,8 +1,13 @@
 package com.example.shopping_mall.controller;
 
+import com.example.shopping_mall.entity.ItemEntity;
 import com.example.shopping_mall.service.ItemService;
 import com.example.shopping_mall.vo.ItemFormVO;
+import com.example.shopping_mall.vo.ItemSearchVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -87,6 +93,29 @@ public class ItemController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping(value = {"/admin/items", "/admin/items/{page}"})
+    public String itemManage(ItemSearchVO itemSearchVO,
+                             @PathVariable("page") Optional<Integer> page, Model model) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Page<ItemEntity> items = itemService.getAdminItemPage(itemSearchVO, pageable);
+
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchVO", itemSearchVO);
+        model.addAttribute("maxPage", 5);
+
+        return "item/itemMng";
+    }
+
+    @GetMapping(value = "/item/{itemId}")
+    public String itemDtl(Model model, @PathVariable("itemId") Long itemId) {
+
+        ItemFormVO itemFormVO = itemService.getItemDtl(itemId);
+
+        model.addAttribute("item", itemFormVO);
+
+        return "item/itemDtl";
     }
 
 }

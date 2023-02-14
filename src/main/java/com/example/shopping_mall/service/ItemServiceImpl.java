@@ -6,7 +6,11 @@ import com.example.shopping_mall.repository.ItemImgRepository;
 import com.example.shopping_mall.repository.ItemRepository;
 import com.example.shopping_mall.vo.ItemFormVO;
 import com.example.shopping_mall.vo.ItemImgVO;
+import com.example.shopping_mall.vo.ItemSearchVO;
+import com.example.shopping_mall.vo.MainItemVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,5 +83,16 @@ public class ItemServiceImpl implements ItemService{
         }
 
         return item.getId();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<ItemEntity> getAdminItemPage(ItemSearchVO itemSearchVO, Pageable pageable) {
+        return itemRepository.getAdminItemPage(itemSearchVO, pageable);
+    }
+
+    @Override
+    public Page<MainItemVO> getMainItemPage(ItemSearchVO itemSearchVO, Pageable pageable) {
+        return itemRepository.getMainItemPage(itemSearchVO, pageable);
     }
 }
