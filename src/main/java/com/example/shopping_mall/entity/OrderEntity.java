@@ -49,4 +49,41 @@ public class OrderEntity {
     @Column(name = "UPDATE_TIME")
     private LocalDateTime updateTime;
 
+    public void addOrderItem(OrderItemEntity orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public static OrderEntity createOrder(MemberEntity member, List<OrderItemEntity> orderItemList) {
+        OrderEntity order = new OrderEntity();
+        order.setMember(member);
+
+        for (OrderItemEntity orderItem : orderItemList) {
+            order.addOrderItem(orderItem);
+        }
+
+        order.setOrderStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+
+        return order;
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+
+        for (OrderItemEntity orderItem: orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+
+        return totalPrice;
+    }
+
+    public void cancelOrder() {
+        this.orderStatus = OrderStatus.CANCEL;
+
+        for (OrderItemEntity orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
 }

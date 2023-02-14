@@ -33,4 +33,23 @@ public class OrderItemEntity extends BaseEntity{
     @Column(name = "COUNT")
     private int count;
 
+    public static OrderItemEntity createOrderItem(ItemEntity item, int count) {
+        OrderItemEntity orderItem = new OrderItemEntity();
+        orderItem.setItem(item);
+        orderItem.setCount(count);
+        orderItem.setOrderPrice(item.getPrice());
+
+        item.removeStock(count);
+
+        return orderItem;
+    }
+
+    public int getTotalPrice() {
+        return orderPrice*count;
+    }
+
+    public void cancel() {
+        this.getItem().addStock(count);
+    }
+
 }
