@@ -26,10 +26,16 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    /*
+    Spring에서 비동기 처리를 할 때 @RequestBody와 @ResponseBody 어노테이션을 사용한다.
+        * @RequestBody : HTTP 요청의 본문 body에 담긴 내용을 자바 객체로 전달.
+        * @ResponseBody : 자바 객체를 HTTP 요청의 body로 전달.
+     */
     @PostMapping(value = "/order")
     public @ResponseBody ResponseEntity order(@RequestBody @Valid OrderVO orderVO,
                                               BindingResult bindingResult, Principal principal) {
 
+        // 주문 정보를 받는 orderVO 객체에 데이터 바인딩 시 에러가 있는지 검사한다.
         if (bindingResult.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -39,6 +45,10 @@ public class OrderController {
             return  new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
+        /*
+        현재 로그인 유저의 정보를 얻기 위해서 @Controller 어노테이션이 선언된 클래스에서 메소드 인자로
+        principal 객체를 넘겨 줄 경우 해당 객체에 접근할 수 있다.
+         */
         String email = principal.getName();
         Long orderId;
 
