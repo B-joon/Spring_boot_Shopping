@@ -15,6 +15,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
         String userId = "";
 
         if (authentication != null) {
+            // 현재 로그인 한 사용자의 정보를 조회하여 사용자의 이름을 등록자와 수정자로 지정한다.
             userId = authentication.getName();
         }
 
