@@ -30,11 +30,6 @@ ItemRepositoryCustom{
      */
     List<ItemEntity> findByPriceLessThan(int price);
 
-    /*
-    출력 결과를 OrderBy 키워드를 이용한다면 오름차순 또는 내림차순으로 조회할 수 있다.
-    오름차순인 경우 'OrderBy + 속성명 + Asc 키워드'를 이용하고,
-    내림차순에서는 OrderBy + 속성명 + Desc 키워드'를 이용해 데이터 순서를 처리할 수 있다.
-     */
     List<ItemEntity> findByPriceLessThanOrderByPriceDesc(int price);
 
     /*
@@ -42,13 +37,6 @@ ItemRepositoryCustom{
     지정해주고 Item으로부터 데이터를 select하겠다는 것을 의미함.
     파라미터에 @Param 어노테이션을 이용하여 파라미터로 넘어온 값을 JPQL에 들어갈 변수로 지정해줄 수 있다
     아래 코드는 itemDetail 변수를 "like % %"사이에 ":itemDetail"로 값이 들어가도록 작성함
-
-    @Param 어노테이션을 이용하여 변수를 JPQL 에 전달하는 대신 파라미터의 순서를 이용해 전달해줄 수 있다.
-    ":itemDetail"대신 첫 번째 파라미터를 전달하겠다는 "?1"이라는 표현을 사용할 수 있지만
-    파라미터 순서가 변하면 동작하지 않을 수 있으므로 명시적은 방법을 사용하는게 좋다.
-
-    value 안에 네이티브 쿼리문을 작성하고 "nativeQuery=true"를 지정한다.
-    96.p 추가 설명
      */
     @Query(value = "select * from ITEM i where i.ITEM_DETAIL like" +
             "%:itemDetail% order by i.PRICE desc ", nativeQuery = true)
