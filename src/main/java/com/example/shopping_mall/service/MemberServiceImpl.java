@@ -40,6 +40,9 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
             throw new UsernameNotFoundException(email);
         }
 
+        /*
+        UserDetail을 구현하고 있는 User를 반환
+         */
         return User.builder()
                 .username(member.getEmail())
                 .password(member.getPassword())

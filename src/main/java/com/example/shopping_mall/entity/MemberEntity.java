@@ -32,6 +32,11 @@ public class MemberEntity extends BaseEntity{
     @Column(name = "ADDRESS")
     private String address;
 
+    /*
+    @Enumerated 자바의 enum타입을 엔티티의 속성으로 지정할 수 있다.
+    Enum을 사용할 때 기본적으로 순서가 저장되는데 Enum의 순서가 바뀔 경우 발생할 수 있으므로
+    "EnumType.STRING" 옵션을 사용해서 String으로 저장한다.
+     */
     @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
     private Role role;
