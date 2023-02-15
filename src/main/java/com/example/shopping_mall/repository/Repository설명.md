@@ -47,6 +47,13 @@ nativeQuery 속성을 사용하면 연결된 DB의 쿼리를 그대로 사용이
 @Query 어노테이션 안에 JPQL문법으로 문자열을 입력하기 때문에 컴파일 시점에서 에러를 발견할 수 없다.
 이를 보완할 수 있는 방법이 Querydsl이다.
 
+Querydsl 클래스 파일을 생성하기 위해서 maven or gradle의 컴파일 명령을 실행한다.
+
+Querydsl을 Spring Data JPA와 함께 사용하기 위해서는 사용자 정의 리포지토리를 정의해야 한다.
+ 1. 사용자 정의 인터페이스 작성
+ 2. 사용자 정의 인터페이스 구현
+ 3. Spring Data JPA 리포지토리에서 사용자 정의 인터페이스 상속
+
 ### Querydsl 장점
 JPQL을 코드로 작성할 수 있도록 도와주는 빌더 API 이다.
 소스코드로 SQL문을 문자열이 아닌 코드로 작성하기 때문에 컴파일러의 도움을 받을 수 있고
@@ -58,13 +65,13 @@ JPQL을 코드로 작성할 수 있도록 도와주는 빌더 API 이다.
  * IDE의 도움을 받아서 자동 완성 기능을 이용할 수 있기 때문에 생산성을 향상시킬 수 있다.
 
 #### JPAQuery 데이터 변환 메소드
-| 메소드                           | 기능                                  |
-|:------------------------------|:------------------------------------|
-| List<T> fetch()               | 조회 결과 리스트 반환                        |
-| T fetchOne                    | 조회 대상이 1건인 경우 제네릭으로 지정한 타입 반환       |
-| T fetchFirst()                | 조회 대상 중 1건만 반환                      |
-| Long fetchCount()             | 조회 대상 개수 반환                         |
-| QueryResult<T> fetchResults() | 조회한 리스트와 전체 개수를 포함한 QueryResults 반환 |
+| 메소드                           | 기능                                                    |
+|:------------------------------|:------------------------------------------------------|
+| List<T> fetch()               | 조회 결과 리스트 반환                                          |
+| T fetchOne()                  | 조회 대상이 1건인 경우 제네릭으로 지정한 타입 반환<br>조회 대상이 1건 이상이면 에러 발생 |
+| T fetchFirst()                | 조회 대상이 1건 또는 1건 이상이면 1건만 반환                           |
+| Long fetchCount()             | 해당 조회 데이터 전체 개수 반환, count 쿼리 실행                       |
+| QueryResult<T> fetchResults() | 조회한 리스트와 전체 개수를 포함한 QueryResults 반환                   |
 
 #### Repository에 QueryDslPredicateExecutor 인터페이스 상속
 
@@ -77,3 +84,20 @@ JPQL을 코드로 작성할 수 있도록 도와주는 빌더 API 이다.
 | Page<T> findAll(Predicate, Pageable) | 조건에 맞는 페이지 데이터 반환   |
 | Iterable findAll(Predicate, Sort)    | 조건에 맞는 정렬된 데이터 반환   |
 | T findOne(Predicate)                 | 조건에 맞는 데이터 1개 반환    |
+
+### 기능 + 'SearchVO' 변수 별 데이터 조회 방법
+##### private String searchDateType
+현재 시간과 등록일을 비교해서 데이터를 조회한다.
+ * 조회 시간 기준
+   * all : 상품 등록일 전체
+   * 1d : 최근 하루 동안 등록된 상품
+   * 1W : 최근 일주일 동안 등록된 상품
+   * 1m : 최근 한달 동안 등록된 상품
+   * 6m : 최근 6개월 동안 등록된 상품
+##### private String searchBy
+데이터를 조회할 때 어떤 유형으로 조회할지 선택한다.
+ * 기능 + "Nm" : 기능명
+ * createdBy : 상품 등록자 아이디
+##### private String searchQuery = ""
+조회할 검색어 저장할 변수<br>
+searchBy가 기능명일 경우 기능명을 기준으로 검색하고, createdBy일 경우 상품 등록자 아이디 기준으로 검색

@@ -21,6 +21,7 @@ import java.util.List;
 
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
+    // 동적으로 쿼리를 생성하기 위해서 JPAQueryFactory 클래스를 사용
     private JPAQueryFactory queryFactory;
 
     public ItemRepositoryCustomImpl(EntityManager em) {

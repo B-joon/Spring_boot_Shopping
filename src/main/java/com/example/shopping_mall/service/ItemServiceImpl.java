@@ -50,6 +50,8 @@ public class ItemServiceImpl implements ItemService{
         return item.getId();
     }
 
+    // 상품 데이터를 읽어오는 트랜잭션을 읽기 전용으로 설정한다.
+    // 이럴 경우 JPA가 더티체킹(변경감지)을 수행하지 않아서 성능을 향상 시킬 수 있다.
     @Transactional(readOnly = true)
     @Override
     public ItemFormVO getItemDtl(Long itemId) {
